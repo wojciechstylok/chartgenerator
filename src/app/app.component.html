@@ -72,6 +72,11 @@
 
   <div>
     <h3>Generated chart</h3>
-    <app-generated-chart class="generatedChart" [chartType]="chosenChartType"></app-generated-chart>
+    <app-generated-chart class="generatedChart"
+        [chartType]="chosenChartType"
+        [chartLabels]="['2020', '2021', '2022']"
+        [chartDatasets]="[ { data: ['90', '80', '55.6'], label: 'test' }, { data: ['23', '60', '55.6'], label: 'test2' } ]"
+        >
+    </app-generated-chart><!--[labels]="_labels" [chartDatasets]="_datasets"-->
   </div>
 </div>

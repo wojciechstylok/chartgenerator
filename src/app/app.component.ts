@@ -14,8 +14,8 @@ export class AppComponent {
   public datasetToAdd: string = '';
   public datasetLabelToAdd: string = '';
 
-  private _labels: string[] = [];
-  private _datasets: Dataset[] = [];
+  public _labels: string[] = [];
+  public _datasets: Dataset[] = [];
 
   onChartTypeSelect(value: string) {
     this.chosenChartType = value;

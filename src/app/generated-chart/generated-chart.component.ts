@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Dataset } from 'src/models/Dataset';
 
 @Component({
   selector: 'app-generated-chart',
@@ -6,27 +7,31 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./generated-chart.component.scss']
 })
 export class GeneratedChartComponent implements OnInit {
+  @Input() chartType: string = '';
+  @Input() chartLabels: string[] = [];
+  @Input() chartDatasets: Array<Dataset> = [];
+
+  public chartColors: Array<any> = [];
 
   constructor() { }
 
   ngOnInit(): void {
-  }
+    let bgColors = ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'];
+    if(this.chartType == 'bar') {
+      let chartColors: string[] = [];
+      this.chartDatasets.forEach(dataset => {
+        let index = this.chartDatasets.indexOf(dataset);
+        dataset.data.forEach(data => {
+          chartColors.push(bgColors[index]);
+        });
 
-  @Input() chartType: string = '';
+        this.chartColors.push( { backgroundColor: chartColors, borderWidth: 2 } )
 
-  public chartDatasets: Array<any> = [
-    { data: [300, 50, 100, 40, 120], label: 'My First dataset' }
-  ];
+        chartColors = [];
 
-  public chartLabels: Array<any> = ['Red', 'Green', 'Yellow', 'Grey', 'Dark Grey'];
-
-  public chartColors: Array<any> = [
-    {
-      backgroundColor: ['#F7464A', '#46BFBD', '#FDB45C', '#949FB1', '#4D5360'],
-      hoverBackgroundColor: ['#FF5A5E', '#5AD3D1', '#FFC870', '#A8B3C5', '#616774'],
-      borderWidth: 2,
+      });
     }
-  ];
+  }
 
   public chartOptions: any = {
     responsive: true
