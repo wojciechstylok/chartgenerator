@@ -4,7 +4,11 @@
 
 <div class="chartPropertiesForm">
   <label for="chartType">Choose type of chart </label>
-  <select name="chartType" id="chartType">
+  <select name="chartType" 
+      id="chartType"
+      #selectedChartType
+      (change)="onChartTypeSelect(selectedChartType.value)"
+      >
     <option value="bar">Bar chart</option>
     <option value="pie">Pie chart</option>
     <option value="line">Line chart</option>
@@ -12,38 +16,62 @@
 
   <div>
     <h3>Add dataset</h3>
-    <div>X axis labels: </div>
-    <div>2019, 2020, 2021</div>
-    <input type="text" placeholder="Enter X axis label">
-    <button>Add</button>
-    <button>Clear</button>
+    <div>X axis labels (e.g. 2019, 2020, 2021), add one by one</div>
+    <input name="labels"
+        [value]="labels"
+        class="labels"
+        disabled />
+    <input type="text"
+        #addLabelValue
+        (input)="onLabelInput(addLabelValue.value)"
+        [value]="labelToAdd"
+        placeholder="Enter X axis label">
+    <button (click)="addLabel()">Add</button>
+    <button (click)="clearLabels()">Clear</button>
     <hr>
     <div>Enter data shown on chart separated by <strong>;</strong> </div>
     <div>65;59.5;80 Dataset label</div>
-    <input type="text" placeholder="Enter data">
-    <input type="text" placeholder="Enter dataset label">
-    <button>Add</button>
+    <textarea name="datasets"
+        [value]="datasets"
+        id="datasets"
+        >
+    </textarea>
+    <br>
+    <input type="text"
+        #addDatasetValue
+        (input)="onDatasetInput(addDatasetValue.value)"
+        [value]="datasetToAdd"
+        placeholder="Enter data">
+    <input type="text"
+        #addDatasetLabel
+        (input)="onDatasetLabelInput(addDatasetLabel.value)"
+        [value]="datasetLabelToAdd"
+        placeholder="Enter dataset label">
+    <button (click)="addDataset()">Add</button>
+    <button (click)="clearDatasets()">Clear</button>
   </div>
 
   <button>Apply</button>
 </div>
 
 <hr>
-<div class="exampleChart" style="display: block;">
-  <h3>Example chart</h3>
-  <canvas mdbChart
-      [chartType]="chartType"
-      [datasets]="chartDatasets"
-      [labels]="chartLabels"
-      [colors]="chartColors"
-      [options]="chartOptions"
-      [legend]="true"
-      (chartHover)="chartHovered($event)"
-      (chartClick)="chartClicked($event)">
-  </canvas>
-</div>
+<div class="charts">
+  <div class="exampleChart" style="display: block;">
+    <h3>Example chart</h3>
+    <canvas class="exampleChart" mdbChart
+        [chartType]="chartType"
+        [datasets]="chartDatasets"
+        [labels]="chartLabels"
+        [colors]="chartColors"
+        [options]="chartOptions"
+        [legend]="true"
+        (chartHover)="chartHovered($event)"
+        (chartClick)="chartClicked($event)">
+    </canvas>
+  </div>
 
-<div>
-  <h3>Generated chart</h3>
-  <app-generated-chart [chartType]="chosenChartType"></app-generated-chart>
+  <div>
+    <h3>Generated chart</h3>
+    <app-generated-chart class="generatedChart" [chartType]="chosenChartType"></app-generated-chart>
+  </div>
 </div>
