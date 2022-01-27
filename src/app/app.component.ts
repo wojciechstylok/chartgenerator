@@ -7,7 +7,7 @@ import { Dataset } from '../models/Dataset';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  public chosenChartType: string = 'bar';
+  public chosenChartType: string = '';
   public labels: string = '';
   public labelToAdd: string = '';
   public datasets: string = '';
@@ -16,10 +16,11 @@ export class AppComponent {
 
   public _labels: string[] = [];
   public _datasets: Dataset[] = [];
+  public generate: boolean = false;
 
   onChartTypeSelect(value: string) {
     this.chosenChartType = value;
-    console.log(this.chosenChartType);
+    this.generate = true;
   }
 
   addLabel() {
@@ -28,6 +29,8 @@ export class AppComponent {
     if(this.labels.length > 0) this.labels += ', ';
 
     this.labelToAdd = '';
+    this.chosenChartType = '';
+    this.generate = false;
   }
 
   clearLabels() {
@@ -56,6 +59,11 @@ export class AppComponent {
     this._datasets.push(dataset);
 
     this.datasets += this.datasetToAdd + ' ' + this.datasetLabelToAdd + '\n';
+
+    this.datasetToAdd = '';
+    this.datasetLabelToAdd = '';
+    this.chosenChartType = '';
+    this.generate = false;
   }
 
   clearDatasets() {

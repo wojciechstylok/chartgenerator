@@ -3,17 +3,6 @@
 </div>
 
 <div class="chartPropertiesForm">
-  <label for="chartType">Choose type of chart </label>
-  <select name="chartType" 
-      id="chartType"
-      #selectedChartType
-      (change)="onChartTypeSelect(selectedChartType.value)"
-      >
-    <option value="bar">Bar chart</option>
-    <option value="pie">Pie chart</option>
-    <option value="line">Line chart</option>
-  </select>
-
   <div>
     <h3>Add dataset</h3>
     <div>X axis labels (e.g. 2019, 2020, 2021), add one by one</div>
@@ -34,7 +23,7 @@
     <textarea name="datasets"
         [value]="datasets"
         id="datasets"
-        >
+        disabled >
     </textarea>
     <br>
     <input type="text"
@@ -50,8 +39,18 @@
     <button (click)="addDataset()">Add</button>
     <button (click)="clearDatasets()">Clear</button>
   </div>
-
-  <button>Apply</button>
+  <label for="chartType">Select type of chart to generate it</label>
+  <select name="chartType" 
+      id="chartType"
+      #selectedChartType
+      (change)="onChartTypeSelect(selectedChartType.value)"
+      [value]="chosenChartType"
+      >
+    <option value="">Select type</option>
+    <option value="bar">Bar chart</option>
+    <option value="pie">Pie chart</option>
+    <option value="line">Line chart</option>
+  </select>
 </div>
 
 <hr>
@@ -70,13 +69,13 @@
     </canvas>
   </div>
 
-  <div>
+  <div *ngIf="generate"> 
     <h3>Generated chart</h3>
     <app-generated-chart class="generatedChart"
         [chartType]="chosenChartType"
-        [chartLabels]="['2020', '2021', '2022']"
-        [chartDatasets]="[ { data: ['90', '80', '55.6'], label: 'test' }, { data: ['23', '60', '55.6'], label: 'test2' } ]"
+        [chartLabels]="_labels"
+        [chartDatasets]="_datasets"
         >
-    </app-generated-chart><!--[labels]="_labels" [chartDatasets]="_datasets"-->
+    </app-generated-chart>
   </div>
 </div>
