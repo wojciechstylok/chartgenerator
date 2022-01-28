@@ -2,50 +2,68 @@
   <h1>Chart Generator</h1>
 </div>
 
-<div class="chartPropertiesForm">
+<div class="container">
   <div>
     <h3>Add dataset</h3>
-    <div>X axis labels (e.g. 2019, 2020, 2021), add one by one</div>
-    <input name="labels"
-        [value]="labels"
-        class="labels"
-        disabled />
-    <input type="text"
-        #addLabelValue
-        (input)="onLabelInput(addLabelValue.value)"
-        [value]="labelToAdd"
-        placeholder="Enter X axis label">
-    <button (click)="addLabel()">Add</button>
-    <button (click)="clearLabels()">Clear</button>
-    <hr>
-    <div>Enter data shown on chart separated by <strong>;</strong> </div>
-    <div>65;59.5;80 Dataset label</div>
-    <textarea name="datasets"
-        [value]="datasets"
-        id="datasets"
-        disabled >
-    </textarea>
-    <br>
-    <input type="text"
-        #addDatasetValue
-        (input)="onDatasetInput(addDatasetValue.value)"
-        [value]="datasetToAdd"
-        placeholder="Enter data">
-    <input type="text"
-        #addDatasetLabel
-        (input)="onDatasetLabelInput(addDatasetLabel.value)"
-        [value]="datasetLabelToAdd"
-        placeholder="Enter dataset label">
-    <button (click)="addDataset()">Add</button>
-    <button (click)="clearDatasets()">Clear</button>
+    <div class="exampleChart">
+      <button mdbBtn (click)="showHideExample()">example chart</button>
+      <div style="display: block;" *ngIf="showExample">
+        <h3>Example chart</h3>
+        <canvas mdbChart
+            [chartType]="chartType"
+            [datasets]="chartDatasets"
+            [labels]="chartLabels"
+            [colors]="chartColors"
+            [options]="chartOptions"
+            [legend]="true"
+            (chartHover)="chartHovered($event)"
+            (chartClick)="chartClicked($event)">
+        </canvas>
+      </div>
+    </div>
+    <div class="settingsForm">
+      <p>X axis labels (e.g. 2019, 2020, 2021), add one by one</p>
+      <input mdbInput name="labels"
+          [value]="labels"
+          class="labels"
+          disabled />
+      <input mdbInput type="text"
+          #addLabelValue
+          (input)="onLabelInput(addLabelValue.value)"
+          [value]="labelToAdd"
+          placeholder="Enter X axis label">
+      <button mdbBtn (click)="addLabel()" class="green">Add</button>
+      <button mdbBtn (click)="clearLabels()" class="red">Clear</button>
+      <hr>
+      <p>Enter data shown on chart separated by semicolon</p>
+      <div>65;59.5;80 Dataset label</div>
+      <textarea mdbInput name="datasets"
+          [value]="datasets"
+          id="datasets"
+          disabled >
+      </textarea>
+      <input mdbInput type="text"
+          #addDatasetValue
+          (input)="onDatasetInput(addDatasetValue.value)"
+          [value]="datasetToAdd"
+          placeholder="Enter data">
+      <input mdbInput type="text"
+          #addDatasetLabel
+          (input)="onDatasetLabelInput(addDatasetLabel.value)"
+          [value]="datasetLabelToAdd"
+          placeholder="Enter dataset label">
+      <button mdbBtn (click)="addDataset()" class="green">Add</button>
+      <button mdbBtn (click)="clearDatasets()" class="red">Clear</button>
+    </div>
   </div>
-  <label for="chartType">Select type of chart to generate it</label>
-  <select name="chartType" 
+</div>
+<div class="chartTypeSelect">
+  <h4>Select type of chart to generate it</h4>
+  <select class="browser-default custom-select" name="chartType" 
       id="chartType"
       #selectedChartType
       (change)="onChartTypeSelect(selectedChartType.value)"
-      [value]="chosenChartType"
-      >
+      [value]="chosenChartType">
     <option value="">Select type</option>
     <option value="bar">Bar chart</option>
     <option value="pie">Pie chart</option>
@@ -53,29 +71,14 @@
   </select>
 </div>
 
-<hr>
-<div class="charts">
-  <div class="exampleChart" style="display: block;">
-    <h3>Example chart</h3>
-    <canvas class="exampleChart" mdbChart
-        [chartType]="chartType"
-        [datasets]="chartDatasets"
-        [labels]="chartLabels"
-        [colors]="chartColors"
-        [options]="chartOptions"
-        [legend]="true"
-        (chartHover)="chartHovered($event)"
-        (chartClick)="chartClicked($event)">
-    </canvas>
-  </div>
-
+<div class="chart" id="generatedChart">
+  <hr>
   <div *ngIf="generate"> 
     <h3>Generated chart</h3>
     <app-generated-chart class="generatedChart"
         [chartType]="chosenChartType"
         [chartLabels]="_labels"
-        [chartDatasets]="_datasets"
-        >
+        [chartDatasets]="_datasets">
     </app-generated-chart>
   </div>
 </div>

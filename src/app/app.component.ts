@@ -17,6 +17,7 @@ export class AppComponent {
   public _labels: string[] = [];
   public _datasets: Dataset[] = [];
   public generate: boolean = false;
+  public showExample: boolean = false;
 
   onChartTypeSelect(value: string) {
     this.chosenChartType = value;
@@ -73,6 +74,10 @@ export class AppComponent {
     this._datasets = [];
   }
 
+  showHideExample() {
+    this.showExample = !this.showExample;
+  }
+
   // ---------- EXAMPLE CHART THINGS BELOW -----------
 
   public chartType: string = 'bar';
@@ -91,7 +96,12 @@ export class AppComponent {
   ];
 
   public chartOptions: any = {
-    responsive: true
+    responsive: true,
+    scales: {
+      y: {
+          beginAtZero: true
+      }
+    }
   };
   public chartClicked(e: any): void { }
   public chartHovered(e: any): void { }
